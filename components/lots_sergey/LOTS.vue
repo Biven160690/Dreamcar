@@ -20,7 +20,13 @@
         <div class="curret_bid">
           <h3>CURRET BID: {{ lot.bid }} $</h3>
           <div class="button">
-              <v-btn elevation="6" x-large color="#B0E0E6" @click="moreInfo(lot.id)">MORE INFO</v-btn>
+            <v-btn
+              elevation="6"
+              x-large
+              color="#B0E0E6"
+              @click="moreInfo(lot.id)"
+              >MORE INFO</v-btn
+            >
           </div>
         </div>
       </div>
@@ -29,9 +35,9 @@
 </template>
 <script>
 import timer from "@/components/lots_sergey/timer.vue";
-import { mapGetters} from "vuex";
+import { mapGetters } from "vuex";
 export default {
-  computed: mapGetters(["getlotFilterAndAllLots","updateStatuses"]),
+  computed: mapGetters(["getlotFilterAndAllLots", "updateStatuses"]),
   components: {
     timer
   },
@@ -40,13 +46,11 @@ export default {
     moreInfo(id) {
       this.$router.push("lots/" + id);
     }
-  },
-
+  }
 };
 </script>
 
 <style>
-
 .price /* див для правого угла  */ {
   display: flex;
   flex-direction: column;
@@ -82,7 +86,7 @@ export default {
   background-color: #e3e3e3;
   width: 99%;
   display: flex;
-  align-items:center;
+  align-items: center;
   justify-content: space-between;
   border-radius: 10px;
   padding: 5px; /* отступ внутри блоков*/

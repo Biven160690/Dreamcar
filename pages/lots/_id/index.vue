@@ -1,54 +1,57 @@
 <template>
   <div class="container">
-    <div>
-      <h1>LOT ID: {{ lot.id }}</h1>
-      <div class="lot_component">
-        <div class="header">
-          <h2>{{ lot.part_name }}</h2>
-          <h2>STATUS: {{ lot.status }}</h2>
-        </div>
-        <div class="content">
-          <img
-            src="@/assets/img/discs.png"
-            alt="DISCS"
-            width="180px"
-            height="180px"
-          />
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
-          </p>
-        </div>
-        <div class="chars">
-          <h3>QUANTITY: {{ lot.quantity }}</h3>
-          <h3>BIRTH DATE: 22.02.2021 18:00</h3>
-          <h3>EXPIRATION TIME: {{ lot.expirationTime }}</h3>
-          <h3>DESIRED PRICE: {{ lot.desiredPrice }}$</h3>
-        </div>
-        <div class="footer">
-          <div class="footer__chars">
-            <h2>CURRENT BID: {{ lot.bid }}$</h2>
-            <h2>TIME LEFT: </h2>
-            <timer v-bind:deadline="lot.expirationTime" class="size"> </timer>
+    <v-app>
+      <div>
+        <h1>LOT ID: {{ lot.id }}</h1>
+        <div class="lot_component">
+          <div class="header">
+            <h2>{{ lot.part_name }}</h2>
+            <h2>STATUS: {{ lot.status }}</h2>
           </div>
-          <NuxtLink to="/"><button>PARTICIPATE</button></NuxtLink>
+          <div class="content">
+            <img
+              src="@/assets/img/discs.png"
+              alt="DISCS"
+              width="180px"
+              height="180px"
+            />
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+              reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+              sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+          </div>
+          <div class="chars">
+            <h3>QUANTITY: {{ lot.quantity }}</h3>
+            <h3>BIRTH DATE: 22.02.2021 18:00</h3>
+            <h3>EXPIRATION TIME: {{ lot.expirationTime }}</h3>
+            <h3>DESIRED PRICE: {{ lot.desiredPrice }}$</h3>
+          </div>
+          <div class="footer">
+            <div class="footer__chars">
+              <h2>CURRENT BID: {{ lot.bid }}$</h2>
+              <h2>TIME LEFT:</h2>
+              <timer v-bind:deadline="lot.expirationTime" class="size"> </timer>
+            </div>
+          </div>
+          <bid class="bid"></bid>
         </div>
       </div>
-    </div>
+    </v-app>
   </div>
 </template>
-
 <script>
 import timer from "@/components/lots_sergey/timer.vue";
+import bid from "@/components/bid.vue";
 import { mapGetters } from "vuex";
 export default {
-  components:{
-    timer
+  components: {
+    timer,
+    bid
   },
   methods: {},
   data: () => ({
@@ -64,6 +67,10 @@ export default {
 </script>
 
 <style scoped>
+.bid {
+  margin: -80px 20px 10px 0px;
+  padding: 20px 20px 0px 0px;
+}
 .page__content {
   display: flex;
   flex-direction: row;
