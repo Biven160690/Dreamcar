@@ -12,7 +12,7 @@ export default {
         status: "open",
         expirationTime: "2021-03-22 19:08",
         desiredPrice: 90,
-        bid: 120
+        bid: 50
       },
       {
         id: 2,
