@@ -1,18 +1,11 @@
 <template>
   <div class="wrapper">
-
-    <userSettings/>
-
+  <userSettings/><changePassword/>
   </div>
-
 </template>
-
-<!--<Form for user information>-->
-
 <script>
-//<userSettings/><changePassword/>
-import userSettings from '~/components/userSettings.vue';
-import changePassword from '~/components/changePassword.vue';
+import userSettings from '~/components/userSettings.vue';//Form for user information
+import changePassword from '~/components/changePassword.vue';//form change password
 export default {
   components: {
     userSettings,
