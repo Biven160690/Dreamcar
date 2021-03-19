@@ -1,8 +1,8 @@
 <template>
   <v-row justify="end">
     <v-dialog v-model="dialog" persistent max-width="600px">
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn color="primary" dark v-bind="attrs" v-on="on">
+      <template v-slot:activator="{ on, attrs }" >
+        <v-btn  v-bind="attrs" v-on="on"  dark color="#B0E0E6" elevation="6" x-large class="black--text" >
           PARTICIPATE
         </v-btn>
       </template>

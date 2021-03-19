@@ -35,7 +35,7 @@
             <div class="footer__chars">
               <h2>CURRENT BID: {{ lot.bid }}$</h2>
               <h2>TIME LEFT:</h2>
-              <timer v-bind:deadline="lot.expirationTime" class="size"> </timer>
+              <timer v-bind:deadline="lot.expirationTime" class="time"> </timer>
             </div>
           </div>
           <bid class="bid"></bid>
@@ -73,6 +73,12 @@ export default {
 </script>
 
 <style scoped>
+.time{
+  margin: -35px 0px 0px 140px;
+  padding: 0px 0px 0px 0px;
+  font-size: 150%;
+  color: red;
+}
 .bid {
   margin: -80px 20px 10px 0px;
   padding: 20px 20px 0px 0px;
