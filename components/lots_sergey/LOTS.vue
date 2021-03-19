@@ -15,7 +15,8 @@
       <div class="price">
         <div class="timer">
           <h3 id="h3">TIME LIFE:</h3>
-          <timer v-bind:deadline="lot.expirationTime" class="size"> </timer>
+          <timer v-if="lot.status == 'open'" v-bind:deadline="lot.expirationTime" class="size"> </timer>
+          <strong v-if="lot.status != 'open'">stopped!</strong>
         </div>
         <div class="curret_bid">
           <h3>CURRET BID: {{ lot.bid }} $</h3>
