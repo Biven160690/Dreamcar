@@ -26,7 +26,6 @@
                 <v-text-field
                   id="app"
                   v-model="yourBid"
-                  :rules="yourBidRules"
                   :error-messages="yourBidErrors"
                   :counter="10"
                   solo
@@ -82,7 +81,7 @@ export default {
     }
   },
   data: () => ({
-    dialog: "", // связь между модальным окном
+    dialog: "", // связь с модальным окном
     yourBid: ""
   }),
   computed: {
@@ -110,9 +109,10 @@ export default {
         yourBid: this.yourBid
       };
       this.addBidUser(bid);
+      alert(`Your bid has been accepted: ${this.yourBid} $`);
       this.yourBid = ""; // чистим строку ввода
       this.dialog = false; // закрываем модальное окно
-    }
+    },
   }
 };
 </script>

@@ -107,6 +107,7 @@ export default {
         status: "open",
         expirationTime: this.expirationTime,
         desiredPrice: this.price,
+        bid: ""
       };
       this.pushLot(newLot);
       this.$router.push("lots");
