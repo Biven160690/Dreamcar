@@ -26,7 +26,6 @@
                 <v-text-field
                   id="app"
                   v-model="yourBid"
-                  :rules="yourBidRules"
                   :error-messages="yourBidErrors"
                   :counter="10"
                   solo
