@@ -37,7 +37,9 @@
 import timer from "@/components/lots_sergey/timer.vue";
 import { mapGetters } from "vuex";
 export default {
-  computed: mapGetters(["getlotFilterAndAllLots", "updateStatuses"]),
+  computed: {
+    ...mapGetters(["getlotFilterAndAllLots", "updateStatuses"])
+  },
   components: {
     timer
   },

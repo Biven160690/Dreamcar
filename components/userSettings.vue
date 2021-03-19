@@ -96,9 +96,9 @@ export default {
       const errors = [];
       if (!this.$v.name.$dirty) return errors;
       !this.$v.name.maxLength &&
-        errors.push("Name must be at most 20 characters long");
+      errors.push("Name must be at most 20 characters long");
       !this.$v.name.minLength &&
-        errors.push("Name must be at least 3 characters long");
+      errors.push("Name must be at least 3 characters long");
       !this.$v.name.required && errors.push("Name is required.");
       return errors;
     },

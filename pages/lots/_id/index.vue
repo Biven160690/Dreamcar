@@ -47,22 +47,28 @@
 <script>
 import timer from "@/components/lots_sergey/timer.vue";
 import bid from "@/components/bid.vue";
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 export default {
   components: {
     timer,
     bid
   },
-  methods: {},
+  methods: {
+    ...mapMutations(["addIdUser"])
+  },
   data: () => ({
     lot: {}
   }),
-  computed: {},
+  computed: {
+
+  },
   created() {
     var lots = this.$store.getters.getAllLots;
     var lot = lots.find(lot => lot.id == this.$route.params.id);
     this.lot = lot;
-  }
+    this.addIdUser(lot); // получаю выбранный лот
+  },
+
 };
 </script>
 

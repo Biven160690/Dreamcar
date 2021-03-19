@@ -12,7 +12,7 @@ export default {
         status: "open",
         expirationTime: "2021-03-22 19:08",
         desiredPrice: 90,
-        bid: 120
+        bid: 50
       },
       {
         id: 2,
@@ -24,8 +24,7 @@ export default {
         expirationTime: "2021-03-19 18:00",
         desiredPrice: 75,
         bid: 70
-      },
-
+      }
     ],
     // Массив для хранение статусов (перебираются все лоты и сюда выводиться статус каждого лота).
     addStatuses: [],
@@ -34,7 +33,9 @@ export default {
     addNames: [],
 
     // Массив для  хранения отсортированных объектов при поиске (когда мы задаем параметры в поиске, объекты в лотах  фильтруются по заданным параметрам и выводяться в этот массив).
-    filteredLots:[]
+    filteredLots: [],
+    //Массив для хранение ставок
+    addBid: []
   },
   mutations: {
     // ������� ��� ���������� lot � state
@@ -84,6 +85,21 @@ export default {
     // Удаление заданных параметров в поиске (кнопка clear на странице лотов)
     deleteSearchParameters(state) {
       state.filteredLots = state.lots;
+    },
+    //Добавление ставки в выбранный лот
+    addBidUser(state, bid) {
+      for (var i = 0; i < state.lots.length; i++) {
+        if (
+          state.lots[i].id === state.addBid.id &&
+          state.lots[i].name === state.addBid.name
+        ) {
+          state.lots[i].bid = bid.yourBid;
+        }
+      }
+    },
+    //Получаем выбранный лот
+    addIdUser(state, lot) {
+      return (state.addBid = lot);
     }
   },
 
@@ -91,13 +107,16 @@ export default {
     getAllLots(state) {
       return state.lots;
     },
-    getAddStatuses(state) { // передаем статусы всех лотов
+    getAddStatuses(state) {
+      // передаем статусы всех лотов
       return state.addStatuses;
     },
-    getAddNames(state) { //передаем имена всех лотов
+    getAddNames(state) {
+      //передаем имена всех лотов
       return state.addNames;
     },
-    getlotFilterAndAllLots(state) { // передаем все лоты или передаем отфильтрованные лоты
+    getlotFilterAndAllLots(state) {
+      // передаем все лоты или передаем отфильтрованные лоты
       return state.filteredLots.length
         ? state.filteredLots
         : (state.filteredLots = state.lots);
