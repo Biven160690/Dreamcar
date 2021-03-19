@@ -72,15 +72,36 @@ export default {
             }
         },
         updateLoggedUser(state, user) {
-            for (var i = 0; i < state.users.length; i++) {
-                if (state.users[i].id == user.id) {
-                    state.users[i].name = user.name;
-                    state.users[i].email = user.email;
-                    state.users[i].company = user.company;
-                    state.users[i].phone = user.phone;
-                }
-            }
-        },
+          for (var i = 0; i < state.users.length; i++) {
+              if (state.users[i].id == user.id) {
+                  state.users[i].name = user.name;
+                  state.users[i].email = user.email;
+                  state.users[i].company = user.company;
+                  state.users[i].phone = user.phone;
+              }
+          };
+          for (var i = 0; i < state.loggedUser.length; i++) {
+            if (state.loggedUser[i].id == user.id) {
+                state.loggedUser[i].name = user.name;
+                state.loggedUser[i].email = user.email;
+                state.loggedUser[i].company = user.company;
+                state.loggedUser[i].phone = user.phone;
+              }
+          }
+      },
+
+      updateLoggedUserPassword(state, user) {
+        for (var i = 0; i < state.users.length; i++) { // перебираем массив всех юзеров
+          if (state.users[i].id === user.id) {
+              state.users[i].passw = user.passw;
+          }
+        };
+        for (var i = 0; i < state.loggedUser.length; i++) {  // перебираем массив залогиненных юзеров
+          if (state.loggedUser[i].id == user.id) {
+              state.loggedUser[i].passw = user.passw;
+          }
+        }
+      },
 
         // Мутация для добваления user в state
         pushUser(state, user) {

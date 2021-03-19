@@ -1,4 +1,4 @@
-<!-- Редактировать данные пользователя-->
+<!-- User information-->
 
 <template>
   <div class="content" id="app" data-app>
@@ -10,34 +10,46 @@
         if we are unable to contact you when you win the auction, you will
         receive a point. Upon reaching 3 points, you will be blocked on this.
       </p>
-      <p v-if="exists" class="user__exists">
-        User with this email already exists
-      </p>
+
       <form>
         <v-text-field
-          v-model="getLoggedUser.name"
+          v-model="name"
+          :error-messages="nameErrors"
+          :counter="20"
           label="Name"
           required
-        >
-        </v-text-field>
+          @input="$v.name.$touch()"
+          @blur="$v.name.$touch()"
+        ></v-text-field>
         <v-text-field
-          v-model="getLoggedUser.email"
+          v-model="email"
+          :error-messages="emailErrors"
           label="E-mail"
           required
+          @input="$v.email.$touch()"
+          @blur="$v.email.$touch()"
         ></v-text-field>
         <v-text-field
-          v-model="getLoggedUser.company"
+          v-model="company"
+          :error-messages="companyErrors"
+          :counter="15"
           label="Company"
           required
+          @input="$v.company.$touch()"
+          @blur="$v.company.$touch()"
         ></v-text-field>
         <v-text-field
-          v-model="getLoggedUser.phone"
+          v-model="phone"
+          :error-messages="phoneErrors"
+          :counter="21"
           label="Corp.number"
           required
+          @input="$v.phone.$touch()"
+          @blur="$v.phone.$touch()"
         ></v-text-field>
         <div class="button">
           <v-btn @click="clear"> cancel </v-btn>
-          <v-btn class="mr-4" @click="submit">
+          <v-btn class="mr-4" :disabled="this.$v.$invalid " @click="submit">
             save
           </v-btn>
         </div>
@@ -56,46 +68,81 @@ import {
   email,
 } from "vuelidate/lib/validators";
 export default {
-    /*
   mixins: [validationMixin],
+
   validations: {
     name: { required, minLength: minLength(3), maxLength: maxLength(20) },
     email: { required, email },
-    company: { required, maxLength: maxLength(30) },
-    phone: { required, maxLength: maxLength(30) },
-  },*/
-  data: () => ({
-    //id: "",
-    //name: "",
-    //email: "",
-    //company: "",
-    //phone: "",
-    exists: false,
-  }),
-  computed: {
-    //...mapMutations(["pushUser", "pushLoggedUser", "updateLoggedUser"]),
-    ...mapGetters(["isUserLogged", "getLoggedUser"]),   
+    company: { required, maxLength: maxLength(15) },
+    phone: { required, maxLength: maxLength(21) },
   },
-  
+
+  data: () => ({
+    name: "",
+    email: "",
+    company: "",
+    phone: "",
+  }),
+  created () {
+    this.name = this.$store.getters.getLoggedUser.name;
+    this.email = this.$store.getters.getLoggedUser.email;
+    this.company = this.$store.getters.getLoggedUser.company;
+    this.phone = this.$store.getters.getLoggedUser.phone;
+  },
+
+  computed: {
+     ...mapGetters(["getLoggedUser"]),
+    nameErrors() {
+      const errors = [];
+      if (!this.$v.name.$dirty) return errors;
+      !this.$v.name.maxLength &&
+        errors.push("Name must be at most 20 characters long");
+      !this.$v.name.minLength &&
+        errors.push("Name must be at least 3 characters long");
+      !this.$v.name.required && errors.push("Name is required.");
+      return errors;
+    },
+    emailErrors() {
+      const errors = [];
+      if (!this.$v.email.$dirty) return errors;
+      !this.$v.email.email && errors.push("Must be valid e-mail");
+      !this.$v.email.required && errors.push("E-mail is required");
+      return errors;
+    },
+    companyErrors() {
+      const errors = [];
+      if (!this.$v.company.$dirty) return errors;
+      !this.$v.company.maxLength &&
+        errors.push("Company name must be at most 15 characters long");
+      !this.$v.company.required && errors.push("Company is required.");
+      return errors;
+    },
+    phoneErrors() {
+      const errors = [];
+      if (!this.$v.phone.$dirty) return errors;
+      !this.$v.phone.maxLength &&
+        errors.push("Number must be at most 21 characters long");
+      !this.$v.phone.required && errors.push("Number is required.");
+      return errors;
+    },
+  },
+
   methods: {
     ...mapMutations(["updateLoggedUser"]),
      submit() {
       var user = {
         id: this.getLoggedUser.id,
-        name: this.getLoggedUser.name,
-        email: this.getLoggedUser.email,
-        company: this.getLoggedUser.company,
-        phone: this.getLoggedUser.phone,
+        name: this.name,
+        email: this.email,
+        company: this.company,
+        phone: this.phone,
       };
       this.updateLoggedUser(user);
       this.$router.push("lots");
     },
     clear() {
-      //this.$v.$reset();
-      this.getLoggedUser.name = "";
-      this.getLoggedUser.email = "";
-      this.getLoggedUser.company = "";
-      this.getLoggedUser.phone = "";
+      this.$v.$reset();
+      this.$router.push("lots");
     },
   },
 };
@@ -133,14 +180,5 @@ form {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-}
-.link {
-  text-decoration: none;
-  color: #85c9ef;
-  border-bottom: 2px solid #85c9ef;
-}
-.user__exists {
-  color: #f96c6c;
-  margin-top: 10px;
 }
 </style>
