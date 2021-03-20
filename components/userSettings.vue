@@ -15,7 +15,7 @@
         <v-text-field
           v-model="name"
           :error-messages="nameErrors"
-          :counter="15"
+          :counter="20"
           label="Name"
           required
           @input="$v.name.$touch()"
@@ -71,7 +71,7 @@ export default {
   mixins: [validationMixin],
 
   validations: {
-    name: { required, minLength: minLength(3), maxLength: maxLength(15) },
+    name: { required, minLength: minLength(3), maxLength: maxLength(20) },
     email: { required, email },
     company: { required, maxLength: maxLength(15) },
     phone: { required, maxLength: maxLength(21) },
@@ -96,9 +96,9 @@ export default {
       const errors = [];
       if (!this.$v.name.$dirty) return errors;
       !this.$v.name.maxLength &&
-        errors.push("Name must be at most 15 characters long");
+      errors.push("Name must be at most 20 characters long");
       !this.$v.name.minLength &&
-        errors.push("Name must be at least 3 characters long");
+      errors.push("Name must be at least 3 characters long");
       !this.$v.name.required && errors.push("Name is required.");
       return errors;
     },

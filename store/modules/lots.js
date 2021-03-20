@@ -24,7 +24,18 @@ export default {
         expirationTime: "2021-03-19 18:00",
         desiredPrice: 75,
         bid: 70
-      }
+      },
+      {
+        id: 3,
+        part_id: 2,
+        part_name: "Wheel",
+        part_description: "wheel  jhsd dsfdf rrrese",
+        quantity: 24,
+        status: "open",
+        expirationTime: "2021-03-25 12:55",
+        desiredPrice: 55,
+        bid: 70
+      },
     ],
     // Массив для хранение статусов (перебираются все лоты и сюда выводиться статус каждого лота).
     addStatuses: [],
@@ -34,7 +45,11 @@ export default {
 
     // Массив для  хранения отсортированных объектов при поиске (когда мы задаем параметры в поиске, объекты в лотах  фильтруются по заданным параметрам и выводяться в этот массив).
     filteredLots: [],
+
+    //Массив для хранение ставок
+
     //Массив для хранения введенных ставок
+
     addBid: []
   },
   mutations: {
