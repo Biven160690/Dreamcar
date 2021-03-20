@@ -12,7 +12,7 @@ export default {
         status: "open",
         expirationTime: "2021-03-22 19:08",
         desiredPrice: 90,
-        bid: 50
+        bid: 105
       },
       {
         id: 2,
@@ -23,7 +23,7 @@ export default {
         status: "open",
         expirationTime: "2021-03-19 18:00",
         desiredPrice: 75,
-        bid: 70
+        bid: 150
       }
     ],
     // Массив для хранение статусов (перебираются все лоты и сюда выводиться статус каждого лота).

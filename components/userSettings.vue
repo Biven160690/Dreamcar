@@ -48,8 +48,8 @@
           @blur="$v.phone.$touch()"
         ></v-text-field>
         <div class="button">
-          <v-btn @click="clear"> cancel </v-btn>
-          <v-btn class="mr-4" :disabled="this.$v.$invalid " @click="submit">
+            <v-btn @click="clear"> cancel </v-btn>
+          <v-btn class="mr-4" :disabled="this.$v.$invalid" @click="submit">
             save
           </v-btn>
         </div>
@@ -65,7 +65,7 @@ import {
   required,
   minLength,
   maxLength,
-  email,
+  email
 } from "vuelidate/lib/validators";
 export default {
   mixins: [validationMixin],
@@ -74,16 +74,16 @@ export default {
     name: { required, minLength: minLength(3), maxLength: maxLength(15) },
     email: { required, email },
     company: { required, maxLength: maxLength(15) },
-    phone: { required, maxLength: maxLength(21) },
+    phone: { required, maxLength: maxLength(21) }
   },
 
   data: () => ({
     name: "",
     email: "",
     company: "",
-    phone: "",
+    phone: ""
   }),
-  created () {
+  created() {
     this.name = this.$store.getters.getLoggedUser.name;
     this.email = this.$store.getters.getLoggedUser.email;
     this.company = this.$store.getters.getLoggedUser.company;
@@ -91,7 +91,7 @@ export default {
   },
 
   computed: {
-     ...mapGetters(["getLoggedUser"]),
+    ...mapGetters(["getLoggedUser"]),
     nameErrors() {
       const errors = [];
       if (!this.$v.name.$dirty) return errors;
@@ -124,18 +124,18 @@ export default {
         errors.push("Number must be at most 21 characters long");
       !this.$v.phone.required && errors.push("Number is required.");
       return errors;
-    },
+    }
   },
 
   methods: {
     ...mapMutations(["updateLoggedUser"]),
-     submit() {
+    submit() {
       var user = {
         id: this.getLoggedUser.id,
         name: this.name,
         email: this.email,
         company: this.company,
-        phone: this.phone,
+        phone: this.phone
       };
       this.updateLoggedUser(user);
       this.$router.push("lots");
@@ -143,8 +143,8 @@ export default {
     clear() {
       this.$v.$reset();
       this.$router.push("lots");
-    },
-  },
+    }
+  }
 };
 </script>
 

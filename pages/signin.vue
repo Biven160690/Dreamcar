@@ -33,13 +33,16 @@
         <v-btn class="mr-4" :disabled="this.$v.$invalid" @click="submit">
           submit
         </v-btn>
+        <NuxtLink to="/table">
         <v-btn @click="clear">
           clear
         </v-btn>
+         </NuxtLink>
       </form>
     </div>
   </div>
 </template>
+
 
 <script>
 import { validationMixin } from "vuelidate";
