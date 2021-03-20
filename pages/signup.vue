@@ -151,6 +151,13 @@ export default {
       var isExists = users.some(user => user.email === this.email);
       if (!isExists) {
         this.exists = false;
+        //генерация id для нового юзера, чтобы он не повторялся с уже существующими
+        var newId = users.length;
+        for (var i = 0; i < users.length; i++) {
+          if (newId === users[i].id) {
+            newId++;
+          }
+        }
         var user = {
           name: this.name,
           email: this.email,
