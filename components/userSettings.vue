@@ -10,7 +10,6 @@
         if we are unable to contact you when you win the auction, you will
         receive a point. Upon reaching 3 points, you will be blocked on this.
       </p>
-
       <form>
         <v-text-field
           v-model="name"
@@ -49,7 +48,7 @@
         ></v-text-field>
         <div class="button">
           <v-btn @click="clear"> cancel </v-btn>
-          <v-btn class="mr-4" :disabled="this.$v.$invalid " @click="submit">
+          <v-btn class="mr-4" :disabled="this.$v.$invalid" @click="submit">
             save
           </v-btn>
         </div>
@@ -73,7 +72,12 @@ export default {
   mixins: [validationMixin],
 
   validations: {
-    name: { required, alpha, minLength: minLength(3), maxLength: maxLength(20) },
+    name: {
+      required,
+      alpha,
+      minLength: minLength(3),
+      maxLength: maxLength(20),
+    },
     email: { required, email },
     company: { required, maxLength: maxLength(15) },
     phone: { required, numeric, maxLength: maxLength(21) },
@@ -85,7 +89,7 @@ export default {
     company: "",
     phone: "",
   }),
-  created () {
+  created() {
     this.name = this.$store.getters.getLoggedUser.name;
     this.email = this.$store.getters.getLoggedUser.email;
     this.company = this.$store.getters.getLoggedUser.company;
@@ -93,16 +97,17 @@ export default {
   },
 
   computed: {
-     ...mapGetters(["getLoggedUser"]),
+    ...mapGetters(["getLoggedUser"]),
     nameErrors() {
       const errors = [];
       if (!this.$v.name.$dirty) return errors;
       !this.$v.name.maxLength &&
-      errors.push("Name must be at most 20 characters long");
+        errors.push("Name must be at most 20 characters long");
       !this.$v.name.minLength &&
-      errors.push("Name must be at least 3 characters long");
+        errors.push("Name must be at least 3 characters long");
       !this.$v.name.required && errors.push("Name is required.");
-      !this.$v.name.alpha && errors.push("Please enter only alphabet characters");
+      !this.$v.name.alpha &&
+        errors.push("Please enter only alphabet characters");
       return errors;
     },
     emailErrors() {
@@ -133,7 +138,7 @@ export default {
 
   methods: {
     ...mapMutations(["updateLoggedUser"]),
-     submit() {
+    submit() {
       var user = {
         id: this.getLoggedUser.id,
         name: this.name,
