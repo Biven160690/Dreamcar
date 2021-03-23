@@ -14,7 +14,8 @@
           @input="$v.passw.$touch()"
           @blur="$v.passw.$touch()"
         ></v-text-field>
-        <v-text-field
+        <v-text-field 
+          :disabled="this.$v.passw.$invalid"
           v-model="password"
           :error-messages="passwordErrors"
           :counter="16"
@@ -24,7 +25,8 @@
           @input="$v.password.$touch()"
           @blur="$v.password.$touch()"
         ></v-text-field>
-        <v-text-field
+        <v-text-field 
+          :disabled="this.$v.passw.$invalid"
           v-model="repeatPassword"
           :error-messages="repeatPasswordErrors"
           :counter="16"
