@@ -11,12 +11,10 @@
           :type="'password'"
           label="Old password"
           required
-          @input="$v.passw.$touch()"
-          @blur="$v.passw.$touch()"
         ></v-text-field>
-        <v-text-field 
-          :disabled="this.$v.passw.$invalid"
+        <v-text-field
           v-model="password"
+          :disabled="this.$v.passw.$invalid"
           :error-messages="passwordErrors"
           :counter="16"
           :type="'password'"
@@ -25,9 +23,9 @@
           @input="$v.password.$touch()"
           @blur="$v.password.$touch()"
         ></v-text-field>
-        <v-text-field 
-          :disabled="this.$v.passw.$invalid"
-          v-model="repeatPassword"
+        <v-text-field
+           v-model="repeatPassword"
+          :disabled="this.$v.password.$invalid"
           :error-messages="repeatPasswordErrors"
           :counter="16"
           :type="'password'"
@@ -38,7 +36,7 @@
         ></v-text-field>
         <div class="button">
           <v-btn @click="clear"> clear </v-btn>
-          <v-btn class="mr-4" :disabled="this.$v.$invalid" @click="submit">
+          <v-btn class="mr-4"  @click="submit">
             submit
           </v-btn>
         </div>
@@ -75,8 +73,6 @@ export default {
   validations: {
     passw: {
       required,
-      minLength: minLength(5),
-      maxLength: maxLength(16),
       sameAsPassw: sameAs("userPasswFromStore"),
     },
     password: { required, minLength: minLength(5), maxLength: maxLength(16) },
@@ -86,16 +82,7 @@ export default {
   },
   computed: {
     ...mapGetters(["getLoggedUser"]),
-    oldPasswordErrors() {
-      const errors = [];
-      if (!this.$v.passw.$$dirty) return errors;
-      !this.$v.passw.maxLength &&
-        errors.push("Password must be at most 16 characters long");
-      !this.$v.passw.minLength &&
-        errors.push("Password must be at least 5 characters long");
-      !this.$v.passw.required && errors.push("Password is required.");
-      return errors;
-    },
+
     passwordErrors() {
       const errors = [];
       if (!this.$v.password.$dirty) return errors;
@@ -109,24 +96,33 @@ export default {
     repeatPasswordErrors() {
       const errors = [];
       if (!this.$v.repeatPassword.$dirty) return errors;
-      !this.$v.repeatPassword.maxLength &&
-        errors.push("Password must be at most 16 characters long");
-      !this.$v.repeatPassword.minLength &&
-        errors.push("Password must be at least 5 characters long");
-      !this.$v.repeatPassword.required && errors.push("Password is required.");
-      return errors;
+    //  !this.$v.repeatPassword.maxLength &&
+    //    errors.push("Password must be at most 16 characters long");
+    //  !this.$v.repeatPassword.minLength &&
+    //    errors.push("Password must be at least 5 characters long");
+    //  !this.$v.repeatPassword.required && errors.push("Password is required.");
+    //  return errors;
     },
   },
   methods: {
     ...mapMutations(["updateLoggedUserPassword"]),
     submit() {
-      var user = {
+      if ( this.passw === this.userPasswFromStore) {
+      if (this.password === this.repeatPassword
+      && this.password.length > 4) {
+        var user = {
         id: this.getLoggedUser.id,
         passw: this.password,
-      };
-      alert("password changed successfully");
-      this.updateLoggedUserPassword(user);
-    },
+        }
+        alert("password changed successfully");
+        this.updateLoggedUserPassword(user);
+      } else {
+        return alert('Wrong  or not filled "Password" form');
+      }
+       } else {
+        return alert('Wrong old password');
+    };
+  },
     clear() {
       this.$v.$reset();
       this.passw = "";
