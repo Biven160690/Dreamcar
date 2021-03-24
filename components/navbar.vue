@@ -29,9 +29,12 @@
                 loggedUser.name
               }}</NuxtLink>
             </h4>
+            <h4 class="link" v-if="isLogged">
+              <button @click="logOut">Log out</button>
+            </h4>
           </div>
           <h4>
-            <NuxtLink v-if="isDreamCar&isLogged" to="/newLot" class="link"
+            <NuxtLink v-if="isDreamCar & isLogged" to="/newLot" class="link"
               >Add new lot</NuxtLink
             >
           </h4>
@@ -42,13 +45,16 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 export default {
-  data: () => ({
-  }),
+  data: () => ({}),
 
   methods: {
-    ...mapGetters(["isUserLogged", "getLoggedUser", "isUserDreamCar"])
+    ...mapMutations(["deleteLoggedUser"]),
+    ...mapGetters(["isUserLogged", "getLoggedUser", "isUserDreamCar"]),
+    logOut() {
+      this.deleteLoggedUser();
+    },
   },
 
   computed: {
@@ -62,8 +68,8 @@ export default {
       var loggedUser = this.getLoggedUser();
       console.log(loggedUser);
       return loggedUser;
-    }
-  }
+    },
+  },
 };
 </script>
 

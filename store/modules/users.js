@@ -120,6 +120,10 @@ export default {
                 state.isUserDreamCar = false;
             }
         },
+        deleteLoggedUser(state){
+            state.loggedUser = [];
+            state.isUserLogged = false;
+        }
     },
     getters: {
         getAllUsers(state) {
