@@ -23,7 +23,7 @@
         <v-text-field
           v-model="passw"
           :error-messages="passwErrors"
-          :counter="10"
+          :counter="16"
           :type="'password'"
           label="Password"
           required
@@ -55,7 +55,7 @@ export default {
 
   validations: {
     email: { required, email },
-    passw: { required, minLength: minLength(5), maxLength: maxLength(10) }
+    passw: { required, minLength: minLength(5), maxLength: maxLength(16) }
   },
 
   data: () => ({

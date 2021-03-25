@@ -65,8 +65,7 @@ import {
   minLength,
   maxLength,
   email,
-  alpha,
-  numeric,
+  alphaNum,
 } from "vuelidate/lib/validators";
 export default {
   mixins: [validationMixin],
@@ -74,13 +73,13 @@ export default {
   validations: {
     name: {
       required,
-      alpha,
+      alphaNum,
       minLength: minLength(3),
       maxLength: maxLength(20),
     },
     email: { required, email },
     company: { required, maxLength: maxLength(15) },
-    phone: { required, numeric, maxLength: maxLength(21) },
+    phone: { required, alphaNum, maxLength: maxLength(21) },
   },
 
   data: () => ({
@@ -106,8 +105,8 @@ export default {
       !this.$v.name.minLength &&
         errors.push("Name must be at least 3 characters long");
       !this.$v.name.required && errors.push("Name is required.");
-      !this.$v.name.alpha &&
-        errors.push("Please enter only alphabet characters");
+      !this.$v.name.alphaNum &&
+        errors.push("Please enter alphabet characters (numerics)");
       return errors;
     },
     emailErrors() {
@@ -131,7 +130,7 @@ export default {
       !this.$v.phone.maxLength &&
         errors.push("Number must be at most 21 characters long");
       !this.$v.phone.required && errors.push("Number is required.");
-      !this.$v.phone.numeric && errors.push("Please enter only numerics.");
+      !this.$v.phone.alphaNum && errors.push("Please enter only numerics.");
       return errors;
     },
   },

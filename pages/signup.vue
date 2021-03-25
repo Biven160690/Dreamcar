@@ -14,7 +14,7 @@
         <v-text-field
           v-model="name"
           :error-messages="nameErrors"
-          :counter="10"
+          :counter="20"
           label="Name"
           required
           @input="$v.name.$touch()"
@@ -31,7 +31,7 @@
         <v-text-field
           v-model="company"
           :error-messages="companyErrors"
-          :counter="10"
+          :counter="15"
           label="Company"
           required
           @input="$v.company.$touch()"
@@ -40,7 +40,7 @@
         <v-text-field
           v-model="tel"
           :error-messages="telErrors"
-          :counter="14"
+          :counter="21"
           label="Corp.number"
           required
           @input="$v.tel.$touch()"
@@ -49,7 +49,7 @@
         <v-text-field
           v-model="passw"
           :error-messages="passwErrors"
-          :counter="10"
+          :counter="16"
           :type="'password'"
           label="Password"
           required
@@ -81,11 +81,11 @@ export default {
   mixins: [validationMixin],
 
   validations: {
-    name: { required, minLength: minLength(3), maxLength: maxLength(10) },
+    name: { required, minLength: minLength(3), maxLength: maxLength(20) },
     email: { required, email },
-    company: { required, maxLength: maxLength(10) },
-    tel: { required, maxLength: maxLength(14) },
-    passw: { required, minLength: minLength(5), maxLength: maxLength(10) }
+    company: { required, maxLength: maxLength(15) },
+    tel: { required, maxLength: maxLength(21) },
+    passw: { required, minLength: minLength(5), maxLength: maxLength(16) }
   },
 
   data: () => ({
@@ -135,7 +135,7 @@ export default {
       const errors = [];
       if (!this.$v.passw.$dirty) return errors;
       !this.$v.passw.maxLength &&
-        errors.push("Password must be at most 10 characters long");
+        errors.push("Password must be at most 16 characters long");
       !this.$v.passw.minLength &&
         errors.push("Password must be at least 5 characters long");
       !this.$v.passw.required && errors.push("Password is required.");

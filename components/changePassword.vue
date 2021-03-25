@@ -18,7 +18,7 @@
           :error-messages="passwordErrors"
           :counter="16"
           :type="'password'"
-          label="Password"
+          label="New password"
           required
           @input="$v.password.$touch()"
           @blur="$v.password.$touch()"
@@ -96,12 +96,8 @@ export default {
     repeatPasswordErrors() {
       const errors = [];
       if (!this.$v.repeatPassword.$dirty) return errors;
-    //  !this.$v.repeatPassword.maxLength &&
-    //    errors.push("Password must be at most 16 characters long");
-    //  !this.$v.repeatPassword.minLength &&
-    //    errors.push("Password must be at least 5 characters long");
-    //  !this.$v.repeatPassword.required && errors.push("Password is required.");
-    //  return errors;
+      !this.$v.repeatPassword.sameAs &&
+       errors.push("Passwords must be identical.");
     },
   },
   methods: {
@@ -117,7 +113,7 @@ export default {
         alert("password changed successfully");
         this.updateLoggedUserPassword(user);
       } else {
-        return alert('Wrong  or not filled "Password" form');
+        return alert('Wrong  or not filled "New password" form');
       }
        } else {
         return alert('Wrong old password');
