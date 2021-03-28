@@ -1,5 +1,3 @@
-<!-- Компонент навигационного меню - навбара-->
-
 <template>
   <div class="navbar">
     <div class="container">
@@ -7,6 +5,11 @@
         <h3><NuxtLink class="link__logo" to="/">DreamCar</NuxtLink></h3>
         <div class="navlinks">
           <h4><NuxtLink to="/lots" class="link">Lots</NuxtLink></h4>
+          <h4>
+            <NuxtLink v-if="isDreamCar & isLogged" to="/newLot" class="link"
+              >Add new lot</NuxtLink
+            >
+          </h4>
           <h4>
             <NuxtLink v-if="!isLogged" to="/signin" class="link"
               >Sign in</NuxtLink
@@ -29,15 +32,12 @@
                 loggedUser.name
               }}</NuxtLink>
             </h4>
-            <h4 class="link" v-if="isLogged">
-              <button @click="logOut">Log out</button>
-            </h4>
+            <div class="exit">
+              <v-btn outlined color="indigo" @click="deletUser">
+                Exit
+              </v-btn>
+            </div>
           </div>
-          <h4>
-            <NuxtLink v-if="isDreamCar & isLogged" to="/newLot" class="link"
-              >Add new lot</NuxtLink
-            >
-          </h4>
         </div>
       </div>
     </div>
@@ -50,11 +50,8 @@ export default {
   data: () => ({}),
 
   methods: {
-    ...mapMutations(["deleteLoggedUser"]),
     ...mapGetters(["isUserLogged", "getLoggedUser", "isUserDreamCar"]),
-    logOut() {
-      this.deleteLoggedUser();
-    },
+    ...mapMutations(["deletUser"])
   },
 
   computed: {
@@ -66,14 +63,17 @@ export default {
     },
     loggedUser() {
       var loggedUser = this.getLoggedUser();
-      console.log(loggedUser);
       return loggedUser;
-    },
-  },
+    }
+  }
 };
 </script>
 
 <style scoped>
+.exit {
+  padding: 0px 0px 0px 30px;
+  margin: -5px 0px -10px 0px;
+}
 .navbar {
   border-bottom: 1px solid #ded9d9;
 }
@@ -104,6 +104,7 @@ h3 {
 .link {
   text-decoration: none;
   color: black;
+  /* margin: 0px 0px 0px -15px; */
 }
 
 .nuxt-link-active {
@@ -128,6 +129,8 @@ h3 {
   display: flex;
   flex-direction: row;
   align-content: center;
+  /* padding: 0px  20px  0px  0px; */
+  margin: 0px -20px 0px -50px;
 }
 .user__settings__nav img {
   margin-right: -30px;

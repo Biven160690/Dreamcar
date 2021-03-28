@@ -54,7 +54,6 @@ import {
   maxLength,
   minLength,
 } from "vuelidate/lib/validators";
-
 export default {
   mixins: [validationMixin],
   data() {
@@ -65,11 +64,9 @@ export default {
       repeatPassword: "",
     };
   },
-
   created() {
     this.userPasswFromStore = this.$store.getters.getLoggedUser.passw;
   },
-
   validations: {
     passw: {
       required,
@@ -82,7 +79,6 @@ export default {
   },
   computed: {
     ...mapGetters(["getLoggedUser"]),
-
     passwordErrors() {
       const errors = [];
       if (!this.$v.password.$dirty) return errors;

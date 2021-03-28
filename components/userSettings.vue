@@ -71,7 +71,6 @@ import {
 } from "vuelidate/lib/validators";
 export default {
   mixins: [validationMixin],
-
   validations: {
     name: {
       required,
@@ -83,7 +82,6 @@ export default {
     company: { required, maxLength: maxLength(15) },
     phone: { required, numeric, maxLength: maxLength(20) },
   },
-
   data: () => ({
     name: "",
     email: "",
@@ -96,7 +94,6 @@ export default {
     this.company = this.$store.getters.getLoggedUser.company;
     this.phone = this.$store.getters.getLoggedUser.phone;
   },
-
   computed: {
     ...mapGetters(["getLoggedUser"]),
     nameErrors() {
@@ -136,7 +133,6 @@ export default {
       return errors;
     },
   },
-
   methods: {
     ...mapMutations(["updateLoggedUser"]),
     submit() {

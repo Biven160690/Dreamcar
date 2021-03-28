@@ -1,67 +1,43 @@
-//������ store ��� parts
+
+//Модуль ставок
+
 
 export default {
   state: {
-    bids: [
-      {
-        "id": 1,
-        "lot_id": 1,
-        "user_id": 1,
-        "bid_price": 3000,
-        "isWinner": false,
-        "date": "22.02.2021",
-        "user_company": "OOO “DileveryClub”"
-      },
-      {
-        "id": 2,
-        "lot_id": 1,
-        "user_id": 2,
-        "bid_price": 2999,
-        "isWinner": false,
-        "date": "22.02.2021",
-        "user_company": "IBA"
-      },
-      {
-        "id": 3,
-        "lot_id": 1,
-        "user_id": 3,
-        "bid_price": 2700,
-        "isWinner": false,
-        "date": "22.02.2021",
-        "user_company": "EPAM Systems"
-      },
-      {
-        "id": 4,
-        "lot_id": 1,
-        "user_id": 4,
-        "bid_price": 2700,
-        "isWinner": false,
-        "date": "22.02.2021",
-        "user_company": "Dominos Pizza"
-      },
-      {
-        "id": 4,
-        "lot_id": 1,
-        "user_id": 5,
-        "bid_price": 2500,
-        "isWinner": false,
-        "date": "22.02.2021",
-        "user_company": "INTEL CORE I20"
-      },
-
-    ]
+    bids: [],
+    selectedLot: [],
+    quantityBid: ""
   },
 
   mutations: {
     addBid(state, newBid) {
-      state.parts.push(newPart)
+      return state.bids.push(newBid);
+    },
+    searchMinBidAndItsLength(state, lot) {
+      var arr = [];
+      var bid_on_id = state.bids.filter(id => id.lot_id === lot.id);
+      for (var i = 0; i < bid_on_id.length; i++) {
+        arr.push(bid_on_id[i].bid_price);
+      }
+      var min_Bid = Math.min(...arr);
+      lot.bid = min_Bid;
+
+      var quant = bid_on_id.length;
+      state.quantityBid = quant;
+    },
+    quantityOldBid(state, lot) {
+      var bid_on_id = state.bids.filter(id => id.lot_id === lot.id);
+      var quant = bid_on_id.length;
+      state.quantityBid = quant;
     }
   },
 
   getters: {
     getAllBids(state) {
-      return state.bids
+      return state.bids;
     },
+    getquantityBid(state) {
+      return state.quantityBid;
+    }
   }
-
-}
+};

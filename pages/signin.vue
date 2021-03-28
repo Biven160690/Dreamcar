@@ -41,6 +41,7 @@
   </div>
 </template>
 
+
 <script>
 import { validationMixin } from "vuelidate";
 import { mapGetters, mapMutations } from "vuex";
@@ -97,7 +98,7 @@ export default {
         this.exists = true;
       } else {
         this.pushLoggedUser(isExists);
-        this.$router.push("LOTS");
+        this.$router.push("lots");
       }
     },
     clear() {

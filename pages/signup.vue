@@ -1,5 +1,4 @@
 <!-- Страница регистрации-->
-
 <template>
   <div class="content">
     <div class="form">
@@ -82,7 +81,6 @@ import {
 } from "vuelidate/lib/validators";
 export default {
   mixins: [validationMixin],
-
   validations: {
     name: { required, alphaNum, minLength: minLength(3), maxLength: maxLength(20) },
     email: { required, email },
@@ -90,7 +88,6 @@ export default {
     tel: { required, numeric, maxLength: maxLength(21) },
     passw: { required, minLength: minLength(5), maxLength: maxLength(16) }
   },
-
   data: () => ({
     name: "",
     email: "",
@@ -99,7 +96,6 @@ export default {
     passw: "",
     exists: false
   }),
-
   computed: {
     nameErrors() {
       const errors = [];
@@ -150,7 +146,6 @@ export default {
       return errors;
     }
   },
-
   methods: {
     ...mapMutations(["pushUser", "pushLoggedUser"]),
     ...mapGetters(["getAllUsers"]),
