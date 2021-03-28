@@ -154,8 +154,7 @@ export default {
     },
     // возвращает объект авторизированного пользователя
     getLoggedUser(state) {
-    // return state.loggedUser[0];
-        return state.loggedUser[state.loggedUser.length-1];
+        return state.loggedUser[0]
 
 
     }

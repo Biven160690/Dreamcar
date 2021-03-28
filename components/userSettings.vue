@@ -40,8 +40,9 @@
         <v-text-field
           v-model="phone"
           :error-messages="phoneErrors"
-          :counter="21"
+          :counter="20"
           label="Corp.number"
+          placeholder="375290000000"
           required
           @input="$v.phone.$touch()"
           @blur="$v.phone.$touch()"
@@ -66,6 +67,7 @@ import {
   maxLength,
   email,
   alphaNum,
+  numeric,
 } from "vuelidate/lib/validators";
 export default {
   mixins: [validationMixin],
@@ -78,7 +80,7 @@ export default {
     },
     email: { required, email },
     company: { required, maxLength: maxLength(15) },
-    phone: { required, alphaNum, maxLength: maxLength(21) },
+    phone: { required, numeric, maxLength: maxLength(20) },
   },
   data: () => ({
     name: "",
@@ -125,9 +127,9 @@ export default {
       const errors = [];
       if (!this.$v.phone.$dirty) return errors;
       !this.$v.phone.maxLength &&
-        errors.push("Number must be at most 21 characters long");
+        errors.push("Number must be at most 20 characters long");
       !this.$v.phone.required && errors.push("Number is required.");
-      !this.$v.phone.alphaNum && errors.push("Please enter only numerics.");
+      !this.$v.phone.numeric && errors.push("Please enter only numerics.");
       return errors;
     },
   },

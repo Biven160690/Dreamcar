@@ -145,7 +145,7 @@ export default {
       );
       var now = new Date(loc).toJSON().slice(0, 10) + " " + new Date(loc).toJSON().slice(11, -8);
        this.nowData = now;
-       
+
       var lots = this.getAllLots();
       //генерация id для нового лота, чтобы он не повторялся с уже существующими лотами
       var newId = lots.length;

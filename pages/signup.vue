@@ -1,5 +1,4 @@
 <!-- Страница регистрации-->
-
 <template>
   <div class="content">
     <div class="form">
@@ -14,7 +13,7 @@
         <v-text-field
           v-model="name"
           :error-messages="nameErrors"
-          :counter="10"
+          :counter="20"
           label="Name"
           required
           @input="$v.name.$touch()"
@@ -31,7 +30,7 @@
         <v-text-field
           v-model="company"
           :error-messages="companyErrors"
-          :counter="10"
+          :counter="15"
           label="Company"
           required
           @input="$v.company.$touch()"
@@ -40,8 +39,9 @@
         <v-text-field
           v-model="tel"
           :error-messages="telErrors"
-          :counter="14"
+          :counter="21"
           label="Corp.number"
+          placeholder="375290000000"
           required
           @input="$v.tel.$touch()"
           @blur="$v.tel.$touch()"
@@ -49,7 +49,7 @@
         <v-text-field
           v-model="passw"
           :error-messages="passwErrors"
-          :counter="10"
+          :counter="16"
           :type="'password'"
           label="Password"
           required
@@ -75,19 +75,19 @@ import {
   required,
   minLength,
   maxLength,
-  email
+  email,
+  alphaNum,
+  numeric,
 } from "vuelidate/lib/validators";
 export default {
   mixins: [validationMixin],
-
   validations: {
-    name: { required, minLength: minLength(3), maxLength: maxLength(10) },
+    name: { required, alphaNum, minLength: minLength(3), maxLength: maxLength(20) },
     email: { required, email },
-    company: { required, maxLength: maxLength(10) },
-    tel: { required, maxLength: maxLength(14) },
-    passw: { required, minLength: minLength(5), maxLength: maxLength(10) }
+    company: { required, maxLength: maxLength(15) },
+    tel: { required, numeric, maxLength: maxLength(21) },
+    passw: { required, minLength: minLength(5), maxLength: maxLength(16) }
   },
-
   data: () => ({
     name: "",
     email: "",
@@ -96,7 +96,6 @@ export default {
     passw: "",
     exists: false
   }),
-
   computed: {
     nameErrors() {
       const errors = [];
@@ -106,6 +105,9 @@ export default {
       !this.$v.name.minLength &&
         errors.push("Name must be at least 3 characters long");
       !this.$v.name.required && errors.push("Name is required.");
+      return errors;
+      !this.$v.name.alphaNum &&
+        errors.push("Please enter alphabet characters (numerics)");
       return errors;
     },
     emailErrors() {
@@ -130,19 +132,20 @@ export default {
         errors.push("Number must be at most 13 characters long");
       !this.$v.tel.required && errors.push("Number is required.");
       return errors;
+      !this.$v.tel.numeric && errors.push("Please enter only numerics.");
+      return errors;
     },
     passwErrors() {
       const errors = [];
       if (!this.$v.passw.$dirty) return errors;
       !this.$v.passw.maxLength &&
-        errors.push("Password must be at most 10 characters long");
+        errors.push("Password must be at most 16 characters long");
       !this.$v.passw.minLength &&
         errors.push("Password must be at least 5 characters long");
       !this.$v.passw.required && errors.push("Password is required.");
       return errors;
     }
   },
-
   methods: {
     ...mapMutations(["pushUser", "pushLoggedUser"]),
     ...mapGetters(["getAllUsers"]),
