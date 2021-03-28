@@ -1,5 +1,3 @@
-<!-- Компонент навигационного меню - навбара-->
-
 <template>
   <div class="navbar">
     <div class="container">
