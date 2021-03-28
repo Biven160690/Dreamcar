@@ -30,7 +30,21 @@ export default {
         bid: "",
         image: require("../../assets/img/Shock_absorber.png"),
         nowData: "2021-03-20 15:00"
-      }
+      },
+            {
+        id: 3,
+        part_id: 3,
+        part_name: "Suspension",
+        part_decstiption: "Suspension for passenger cars.Disc brakes have been around for a long time. They have proven themselves well and are widely used today. But first things first.",
+        quantity: 50,
+        status: "open",
+        expirationTime: "2021-04-25 19:08",
+        timer: "2021-04-25 19:08",
+        desiredPrice: 90,
+        bid: "",
+        image: require("../../assets/img/Suspension.jpg"),
+        nowData: "2021-03-25 11:30"
+      },
     ],
     // Массив для хранение статусов (перебираются все лоты и сюда выводиться статус каждого лота).
     addStatuses: [],
