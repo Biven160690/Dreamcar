@@ -36,7 +36,7 @@
         ></v-text-field>
         <div class="button">
           <v-btn @click="clear"> clear </v-btn>
-          <v-btn class="mr-4"  @click="submit">
+          <v-btn class="mr-4" :disabled="this.$v.passw.$invalid" @click="submit">
             submit
           </v-btn>
         </div>
