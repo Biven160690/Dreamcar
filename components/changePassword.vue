@@ -112,6 +112,7 @@ export default {
         }
         alert("password changed successfully");
         this.updateLoggedUserPassword(user);
+        this.$router.push("lots");
       } else {
         return alert('Wrong  or not filled "New password" form');
       }
