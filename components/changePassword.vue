@@ -1,35 +1,44 @@
-<!-- Изменить пароль пользователя-->
+<!-- Change password form-->
 
 <template>
   <div class="content">
     <div class="form">
       <h1>CHANGE PASSWORD</h1>
-        <form>
+      <form>
         <v-text-field
           v-model="passw"
-          :type="'passw'"
+          :counter="16"
+          :type="'password'"
           label="Old password"
           required
         ></v-text-field>
         <v-text-field
           v-model="password"
+          :disabled="this.$v.passw.$invalid"
+          :error-messages="passwordErrors"
+          :counter="16"
           :type="'password'"
           label="New password"
           required
+          @input="$v.password.$touch()"
+          @blur="$v.password.$touch()"
         ></v-text-field>
         <v-text-field
-          v-model="repeatPassword"
-          :type="'repeatPassword'"
+           v-model="repeatPassword"
+          :disabled="this.$v.password.$invalid"
+          :error-messages="repeatPasswordErrors"
+          :counter="16"
+          :type="'password'"
           label="Repeat new password"
           required
+          @input="$v.repeatPassword.$touch()"
+          @blur="$v.repeatPassword.$touch()"
         ></v-text-field>
         <div class="button">
-        <v-btn @click="clear">
-          clear
-        </v-btn>
-        <v-btn class="mr-4"  @click="submit">
-          submit
-        </v-btn>
+          <v-btn @click="clear"> clear </v-btn>
+          <v-btn class="mr-4"  @click="submit">
+            submit
+          </v-btn>
         </div>
       </form>
     </div>
@@ -37,62 +46,90 @@
 </template>
 
 <script>
+import { validationMixin } from "vuelidate";
 import { mapGetters, mapMutations } from "vuex";
-import { required, sameAs, minLength } from 'vuelidate/lib/validators';
+import {
+  required,
+  sameAs,
+  maxLength,
+  minLength,
+} from "vuelidate/lib/validators";
 export default {
-   data: () => ({
-    return: {
-      password: '',
-      repeatPassword: ''
-    }
-  }),
+  mixins: [validationMixin],
+  data() {
+    return {
+      passw: "",
+      userPasswFromStore: "",
+      password: "",
+      repeatPassword: "",
+    };
+  },
+  created() {
+    this.userPasswFromStore = this.$store.getters.getLoggedUser.passw;
+  },
   validations: {
-    password: {
+    passw: {
       required,
-      minLength: minLength(5),
+      sameAsPassw: sameAs("userPasswFromStore"),
     },
+    password: { required, minLength: minLength(5), maxLength: maxLength(16) },
     repeatPassword: {
-      sameAsPassword: sameAs('password')
+      sameAsPassword: sameAs("password"),
     },
   },
   computed: {
-//      passwErrors() {
-//      const errors = [];
-//      if (!this.$v.password.$dirty) return errors;
-//      !this.$v.password.maxLength &&
-//        errors.push("Password must be at most 10 characters long");
-//      !this.$v.password.minLength &&
-//        errors.push("Password must be at least 5 characters long");
-//      !this.$v.password.required && errors.push("Password is required.");
-//      return errors;
-//    }
- },
-  methods: {
-    ...mapMutations(["pushLoggedUser"]),
     ...mapGetters(["getLoggedUser"]),
-    submit() {
-     // var users = this.getLoggedUser();
-    //  var isExists = {};
-    //  isExists = users.find {
-    //    user => user.password === this.password;
-    //    this.updateLoggedUser(isExists);
+    passwordErrors() {
+      const errors = [];
+      if (!this.$v.password.$dirty) return errors;
+      !this.$v.password.maxLength &&
+        errors.push("Password must be at most 16 characters long");
+      !this.$v.password.minLength &&
+        errors.push("Password must be at least 5 characters long");
+      !this.$v.password.required && errors.push("Password is required.");
+      return errors;
     },
+    repeatPasswordErrors() {
+      const errors = [];
+      if (!this.$v.repeatPassword.$dirty) return errors;
+      !this.$v.repeatPassword.sameAs &&
+       errors.push("Passwords must be identical.");
+    },
+  },
+  methods: {
+    ...mapMutations(["updateLoggedUserPassword"]),
+    submit() {
+      if ( this.passw === this.userPasswFromStore) {
+      if (this.password === this.repeatPassword
+      && this.password.length > 4) {
+        var user = {
+        id: this.getLoggedUser.id,
+        passw: this.password,
+        }
+        alert("password changed successfully");
+        this.updateLoggedUserPassword(user);
+      } else {
+        return alert('Wrong  or not filled "New password" form');
+      }
+       } else {
+        return alert('Wrong old password');
+    };
+  },
     clear() {
       this.$v.$reset();
       this.passw = "";
       this.password = "";
       this.repeatPassword = "";
-    }
-  }
+    },
+  },
 };
 </script>
-
 <style scoped>
 .content {
   width: 37%;
   justify-content: center;
   margin-top: 50px;
-  float:right;
+  float: right;
   margin: 0% 5% 0% 0%;
 }
 .content h1 {

@@ -1,9 +1,9 @@
-<!-- c������� ��� �������� ������ ����-->
+<!-- cтраница для создания нового лота-->
 
-<!-- ��� ������ v-select � �������� ��������
-      ����� � ������������ ���� div �������
+<!-- для работы v-select с массивом объектов
+      нужно в родительском теге div указать
       id="app" data-app
-      � � ����� v-select ������ ����� return-object-->
+      а в самом v-select задать опцию return-object-->
 
 <template>
   <form class="form">
@@ -18,9 +18,12 @@
           :item-value="'id'"
           name="getAllParts"
           label="Part name"
-          required
           return-object
           @change="changePart"
+          required
+          :error-messages="selectedPartErrors"
+          @input="$v.selectedPart.$touch()"
+          @blur="$v.selectedPart.$touch()"
         ></v-select>
         <v-text-field v-model="description" label="Description"></v-text-field>
         <v-text-field
@@ -29,39 +32,55 @@
           label="Desired price"
           suffix="$"
           required
+          :error-messages="priceErrors"
+          @input="$v.price.$touch()"
+          @blur="$v.price.$touch()"
         ></v-text-field>
         <v-text-field
           type="number"
+          min="1"
+          step="1"
           v-model="quantity"
           label="Quantity"
           required
+          :error-messages="quantityErrors"
+          @input="$v.quantity.$touch()"
+          @blur="$v.quantity.$touch()"
         ></v-text-field>
         <v-text-field
           v-model="expirationTime"
-          type="date"
+          type="datetime-local"
           label="Expiration Time"
+          required
+          :error-messages="expirationTimeErrors"
+          @input="$v.expirationTime.$touch()"
+          @blur="$v.expirationTime.$touch()"
         ></v-text-field>
       </div>
       <div class="div3">
         <v-btn class="clear" @click="clear"> clear </v-btn>
-        <v-btn class="submit" @click="submit"> add </v-btn>
+        <v-btn class="submit" :disabled="this.$v.$invalid" @click="submit">
+          add
+        </v-btn>
       </div>
     </div>
   </form>
 </template>
 
 <script>
+//pattern="\d+"
+
 import { validationMixin } from "vuelidate";
 import { mapGetters, mapMutations } from "vuex";
-import { required, minLength, maxLength } from "vuelidate/lib/validators";
+import { required, minValue } from "vuelidate/lib/validators";
 export default {
   mixins: [validationMixin],
 
   validations: {
-    // selectedPart: { required, minLength: minLength(3), maxLength: maxLength(10) },
-    //price: { required, minLength: minLength(1), maxLength: maxLength(5) },
-    //price: { required, maxLength: maxLength(14) },
-    // expirationDate: { required, minLength: minLength(5), maxLength: maxLength(10) }
+    selectedPart: { required },
+    price: { required, minValue: minValue(1) },
+    quantity: { required, minValue: minValue(1) },
+    expirationTime: { required }
   },
 
   data: () => ({
@@ -70,17 +89,42 @@ export default {
     quantity: "",
     price: "",
     expirationTime: "",
+    nowData: ""
   }),
 
   computed: {
     ...mapGetters(["getAllParts"]),
-    /*
-    ...mapGetters(["getUserById"]),
-    description () {
-      return this.getUserById.email;
-    }*/
 
+    //обработчики ошибок при валидации полей формы
+    selectedPartErrors() {
+      const errors = [];
+      if (!this.$v.selectedPart.$dirty) return errors;
+      !this.$v.selectedPart.required && errors.push("Part name is required.");
+      return errors;
+    },
+    priceErrors() {
+      const errors = [];
+      if (!this.$v.price.$dirty) return errors;
+      !this.$v.price.minValue && errors.push("Price must be at least 1");
+      !this.$v.price.required && errors.push("Price is required.");
+      return errors;
+    },
+    quantityErrors() {
+      const errors = [];
+      if (!this.$v.quantity.$dirty) return errors;
+      !this.$v.quantity.minValue && errors.push("Quantity must be at least 1");
+      !this.$v.quantity.required && errors.push("Quantity is required.");
+      return errors;
+    },
+    expirationTimeErrors() {
+      const errors = [];
+      if (!this.$v.expirationTime.$dirty) return errors;
+      !this.$v.expirationTime.required &&
+        errors.push("Expiration time is required.");
+      return errors;
+    }
   },
+
   methods: {
     ...mapMutations(["pushLot"]),
     ...mapGetters(["getAllLots"]),
@@ -90,39 +134,61 @@ export default {
     },
 
     submit() {
+      //устанавливаем дату создания лота
+      var d = new Date();
+      var loc = Date.UTC(
+        d.getFullYear(),
+        d.getMonth(),
+        d.getDate(),
+        d.getHours(),
+        d.getMinutes()
+      );
+      var now = new Date(loc).toJSON().slice(0, 10) + " " + new Date(loc).toJSON().slice(11, -8);
+       this.nowData = now;
+       
       var lots = this.getAllLots();
-      //��������� id ��� ������ ����, ����� �� �� ���������� � ��� ������������� ������
+      //генерация id для нового лота, чтобы он не повторялся с уже существующими лотами
       var newId = lots.length;
       for (var i = 0; i < lots.length; i++) {
         if (newId === lots[i].id) {
           newId++;
         }
       }
+      //запись полученного времени в нужном формате: '2021-03-17 20:33'
+      //var t = this.expirationTime.slice(0,10) + " " + this.expirationTime.slice(11);
+      var t =
+        this.expirationTime.substr(0, 10) +
+        " " +
+        this.expirationTime.substr(11);
       var newLot = {
         id: newId,
         part_id: this.selectedPart.id,
         part_name: this.selectedPart.name,
-        part_decstiption: this.selectedPart.part_decstiption,
+        // part_decstiption: this.selectedPart.description,
+        part_decstiption: this.description,
         quantity: this.quantity,
         status: "open",
-        expirationTime: this.expirationTime,
+        expirationTime: t,
+        timer: t,
         desiredPrice: this.price,
-        bid: ""
+        bid: "",
+        image: "",
+        nowData: this.nowData
       };
       this.pushLot(newLot);
       this.$router.push("lots");
-      alert("New lot for Part.name = '" + this.selectedPart.name + "' added!");
+
+      alert("New lot for Part name = '" + this.selectedPart.name + "' added!");
     },
     clear() {
-      //this.$v.$reset()
-      //this.select = null
+      this.$v.$reset();
       this.selectedPart = "";
       this.description = "";
       this.price = "";
       this.quantity = "";
       this.expirationTime = "";
-    },
-  },
+    }
+  }
 };
 </script>
 

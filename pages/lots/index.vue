@@ -1,17 +1,17 @@
 <template>
-<div>
-<SEARCH/>
-<LOTS/>
-</div>
+  <div>
+    <search />
+    <lots />
+  </div>
 </template>
 
 <script>
-import SEARCH from "@/components/lots_sergey/SEARCH.vue";
-import LOTS from "@/components/lots_sergey/LOTS.vue";
+import search from "@/components/search.vue";
+import lots from "@/components/lots.vue";
 export default {
   components: {
-    SEARCH,
-    LOTS
-   },
-}
+    search,
+    lots
+  }
+};
 </script>

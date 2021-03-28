@@ -10,7 +10,7 @@
       }}
     </p>
     <p v-if="!currentTime">
-      Times Up
+      00:00:00:00
     </p>
   </div>
 </template>

@@ -1,51 +1,66 @@
 <template>
   <div class="container">
     <v-app>
-      <div>
-        <h1>LOT ID: {{ lot.id }}</h1>
+      <div class="page__content">
         <div class="lot_component">
+          <h1>LOT ID: {{ lot.id }}</h1>
           <div class="header">
             <h2>{{ lot.part_name }}</h2>
             <h2>STATUS: {{ lot.status }}</h2>
           </div>
           <div class="content">
-            <img
-              src="@/assets/img/discs.png"
-              alt="DISCS"
-              width="180px"
-              height="180px"
-            />
+            <img :src="lot.image" alt="DISCS" width="180px" height="180px" />
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
+              {{ lot.part_decstiption }}
             </p>
           </div>
           <div class="chars">
             <h3>QUANTITY: {{ lot.quantity }}</h3>
-            <h3>BIRTH DATE: 22.02.2021 18:00</h3>
+            <h3>BIRTH DATE: {{ lot.nowData }}</h3>
             <h3>EXPIRATION TIME: {{ lot.expirationTime }}</h3>
             <h3>DESIRED PRICE: {{ lot.desiredPrice }}$</h3>
           </div>
           <div class="footer">
             <div class="footer__chars">
-              <h2>CURRENT BID: {{ lot.bid }}$</h2>
+              <h2 v-if="isLogged">CURRENT BID: {{ lot.bid }}$</h2>
               <h2>TIME LEFT:</h2>
-              <timer v-bind:deadline="lot.expirationTime" class="size"> </timer>
+              <h2><timer v-bind:deadline="lot.timer" class="time"> </timer></h2>
             </div>
           </div>
-          <bid class="bid"></bid>
+          <div v-if="isLogged && !isUserDreamCar && lot.status == 'open'">
+            <bid class="bid"></bid>
+          </div>
+        </div>
+        <div class="bids">
+          <div v-if="isLogged">
+            <h1>BIDS {{ getquantityBid }}</h1>
+            <!-- <h1>BIDS {{ quantityBid }}</h1> -->
+            <div v-for="bid in bids" :key="bid.id">
+              <div v-bind:class="[isWinnerBid, bid.isWinner]">
+                <h3>COMPANY: {{ bid.user_company }}</h3>
+                <!-- <h3>COMPANY: {{ allBids }}</h3> -->
+                <div>
+                  <h1>BET: {{ bid.bid_price }}$</h1>
+                  <h3>{{ bid.date }}</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div v-else>
+            <div class="bid_error">
+              <p>
+                In order to see the bids of other participants - log into your
+                account
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </v-app>
   </div>
 </template>
 <script>
-import timer from "@/components/lots_sergey/timer.vue";
+import timer from "@/components/timer.vue";
 import bid from "@/components/bid.vue";
 import { mapGetters, mapMutations } from "vuex";
 export default {
@@ -54,25 +69,75 @@ export default {
     bid
   },
   methods: {
-    ...mapMutations(["addIdUser"])
+    ...mapMutations(["updateStatuses", "quantityOldBid"])
   },
   data: () => ({
-    lot: {}
+    lot: {},
+    bids: [],
+    isLogged: false,
+    isUserDreamCar: false
+    // user: []
+    // companyBid: ""
   }),
   computed: {
+    ...mapGetters(["getquantityBid"]),
+    isWinnerBid() {
+      if (this.lot.status == "closed") {
+        var bid = this.bids.filter(bid => bid.bid_price == this.lot.bid);
+        for (var i = 0; i < bid.length; i++) {
+          bid[i].isWinner = "bid_win";
+          return bid;
+        }
+      }
+    }
+    // allBids() {
+    //   for (var j = 0; j < this.bids.length; j++) {
+    //     for (var i = 0; i < this.user.length; i++) {
+    //       if (this.bids[j].user_id == this.user[i].id) {
+    //       var a = this.bids[j].user_company = this.user[i].company;
+    //       return a
 
+    //       }
+    //     }
+    //   }
+    // }
   },
   created() {
+    // до загрузки отображаем следующие данные:
+    // var user = this.$store.getters.getAllUsers;
+    // this.user = user;
+
     var lots = this.$store.getters.getAllLots;
     var lot = lots.find(lot => lot.id == this.$route.params.id);
     this.lot = lot;
-    this.addIdUser(lot); // получаю выбранный лот
-  },
+    this.quantityOldBid(lot);
 
+    var isLogged = this.$store.getters.isUserLogged;
+    this.isLogged = isLogged;
+
+    var isUserDreamCar = this.$store.getters.isUserDreamCar;
+    this.isUserDreamCar = isUserDreamCar;
+
+    var bids = this.$store.getters.getAllBids;
+    var cur_bids = bids.filter(bid => bid.lot_id == this.$route.params.id);
+    this.bids = cur_bids;
+  },
+  beforeUpdate() {
+    //после изенения отображаем следующие данные:
+    var bids = this.$store.getters.getAllBids;
+    var cur_bids = bids.filter(bid => bid.lot_id == this.$route.params.id);
+    this.bids = cur_bids;
+    this.updateStatuses();
+  }
 };
 </script>
 
 <style scoped>
+.time {
+  margin: -35px 0px 0px 140px;
+  padding: 0px 0px 0px 0px;
+}
+
 .bid {
   margin: -80px 20px 10px 0px;
   padding: 20px 20px 0px 0px;
@@ -80,6 +145,8 @@ export default {
 .page__content {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  font-family: "initial";
 }
 .lot_component {
   background-color: #e3e3e3;
@@ -121,5 +188,44 @@ button {
 }
 img {
   margin-right: 30px;
+}
+.bids {
+  display: flex;
+  flex-direction: column;
+  width: 35%;
+}
+.bid_id {
+  background-color: #e3e3e3;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+.bid_id div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bid_win {
+  background-color: #98f390;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.bid_win div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.bid_error {
+  background-color: #e3e3e3;
+  padding: 10px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.bid_error p {
+  width: 50%;
+  margin: 0 auto;
 }
 </style>

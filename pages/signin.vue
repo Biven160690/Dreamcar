@@ -97,7 +97,7 @@ export default {
         this.exists = true;
       } else {
         this.pushLoggedUser(isExists);
-        this.$router.push("LOTS");
+        this.$router.push("lots");
       }
     },
     clear() {
