@@ -1,4 +1,6 @@
+
 //Модуль ставок
+
 
 export default {
   state: {

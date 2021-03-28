@@ -5,7 +5,8 @@ import { email } from "vuelidate/lib/validators";
 /*  {
 "id": 1,
 "name": "Leanne Graham",
-"username": "Bret",Sincere@april.biz
+"username": "Bret",
+Sincere@april.biz
 "email": "",
 "address": {
 "street": "Kulas Light",
