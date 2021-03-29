@@ -94,6 +94,7 @@ export default {
       if (!this.$v.repeatPassword.$dirty) return errors;
       !this.$v.repeatPassword.sameAs &&
        errors.push("Passwords must be identical.");
+       return errors;
     },
   },
   methods: {
