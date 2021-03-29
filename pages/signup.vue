@@ -39,7 +39,7 @@
         <v-text-field
           v-model="tel"
           :error-messages="telErrors"
-          :counter="21"
+          :counter="20"
           label="Corp.number"
           placeholder="375290000000"
           required
@@ -85,7 +85,7 @@ export default {
     name: { required, alphaNum, minLength: minLength(3), maxLength: maxLength(20) },
     email: { required, email },
     company: { required, maxLength: maxLength(15) },
-    tel: { required, numeric, maxLength: maxLength(21) },
+    tel: { required, numeric, maxLength: maxLength(20) },
     passw: { required, minLength: minLength(5), maxLength: maxLength(16) }
   },
   data: () => ({
@@ -129,10 +129,9 @@ export default {
       const errors = [];
       if (!this.$v.tel.$dirty) return errors;
       !this.$v.tel.maxLength &&
-        errors.push("Number must be at most 13 characters long");
+        errors.push("Number must be at most 20 characters long");
       !this.$v.tel.required && errors.push("Number is required.");
-      return errors;
-      !this.$v.tel.numeric && errors.push("Please enter only numerics.");
+      !this.$v.tel.numeric && errors.push("Please enter only numerics in an international format 375290000000.");
       return errors;
     },
     passwErrors() {

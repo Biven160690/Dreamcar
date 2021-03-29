@@ -105,7 +105,7 @@ export default {
         errors.push("Name must be at least 3 characters long");
       !this.$v.name.required && errors.push("Name is required.");
       !this.$v.name.alphaNum &&
-        errors.push("Please enter alphabet characters (numerics)");
+        errors.push("Please enter alphabet(numerics) characters ");
       return errors;
     },
     emailErrors() {
@@ -129,7 +129,7 @@ export default {
       !this.$v.phone.maxLength &&
         errors.push("Number must be at most 20 characters long");
       !this.$v.phone.required && errors.push("Number is required.");
-      !this.$v.phone.numeric && errors.push("Please enter only numerics.");
+      !this.$v.phone.numeric && errors.push("Please enter only numerics in an international format 375290000000.");
       return errors;
     },
   },
