@@ -149,11 +149,6 @@ form {
   margin-bottom: 50px;
   margin-top: 50px;
 }
-.link {
-  text-decoration: none;
-  color: #85c9ef;
-  border-bottom: 2px solid #85c9ef;
-}
 .button {
   margin-top: 3%;
   display: flex;
