@@ -7,10 +7,13 @@
       <form>
         <v-text-field
           v-model="passw"
+          :error-messages="oldPasswordErrors"
           :counter="16"
           :type="'password'"
           label="Old password"
           required
+          @input="$v.passw.$touch()"
+          @blur="$v.passw.$touch()"
         ></v-text-field>
         <v-text-field
           v-model="password"
@@ -74,19 +77,27 @@ export default {
     },
     password: { required, minLength: minLength(5), maxLength: maxLength(16) },
     repeatPassword: {
+      required,
       sameAsPassword: sameAs("password"),
     },
   },
   computed: {
     ...mapGetters(["getLoggedUser"]),
+    oldPasswordErrors() {
+      const errors = [];
+      if (!this.$v.passw.$dirty) return errors;
+      !this.$v.passw.sameAs &&
+       errors.push("Input password must be identical with old password.");
+       return errors;
+    },
     passwordErrors() {
       const errors = [];
       if (!this.$v.password.$dirty) return errors;
       !this.$v.password.maxLength &&
-        errors.push("Password must be at most 16 characters long");
+        errors.push("New password must be at most 16 characters long");
       !this.$v.password.minLength &&
-        errors.push("Password must be at least 5 characters long");
-      !this.$v.password.required && errors.push("Password is required.");
+        errors.push("New password must be at least 5 characters long");
+      !this.$v.password.required && errors.push("New password is required.");
       return errors;
     },
     repeatPasswordErrors() {
