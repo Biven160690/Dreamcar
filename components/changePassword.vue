@@ -9,31 +9,40 @@
           v-model="passw"
           :error-messages="oldPasswordErrors"
           :counter="16"
-          :type="'password'"
+          :value="password"
+          :type="value ? 'password' : 'text'"
+          :append-icon="value ? 'mdi-eye' : 'mdi-eye-off'"
           label="Old password"
           required
+          @click:append="() => (value = !value)"
           @input="$v.passw.$touch()"
           @blur="$v.passw.$touch()"
-        ></v-text-field>
-        <v-text-field
+       ></v-text-field>
+          <v-text-field
           v-model="password"
           :disabled="this.$v.passw.$invalid"
           :error-messages="passwordErrors"
           :counter="16"
-          :type="'password'"
+          :value="password"
+          :append-icon="value ? 'mdi-eye' : 'mdi-eye-off'"
+          :type="value ? 'password' : 'text'"
           label="New password"
           required
+          @click:append="() => (value = !value)"
           @input="$v.password.$touch()"
           @blur="$v.password.$touch()"
-        ></v-text-field>
+       ></v-text-field>
         <v-text-field
            v-model="repeatPassword"
           :disabled="this.$v.password.$invalid"
           :error-messages="repeatPasswordErrors"
           :counter="16"
-          :type="'password'"
+          :value="password"
+          :append-icon="value ? 'mdi-eye' : 'mdi-eye-off'"
+          :type="value ? 'password' : 'text'"
           label="Repeat new password"
           required
+          @click:append="() => (value = !value)"
           @input="$v.repeatPassword.$touch()"
           @blur="$v.repeatPassword.$touch()"
         ></v-text-field>
@@ -65,6 +74,7 @@ export default {
       userPasswFromStore: "",
       password: "",
       repeatPassword: "",
+      value: true,
     };
   },
   created() {
