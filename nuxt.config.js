@@ -1,5 +1,3 @@
-import colors from 'vuetify/es5/util/colors'
-
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -41,21 +39,16 @@ export default {
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
-    customVariables: ['~/assets/variables.scss'],
-    theme: {
-      dark: false,
-      themes: {
-        dark: {
-          primary: colors.blue.darken2,
-          accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
-          info: colors.teal.lighten1,
-          warning: colors.amber.base,
-          error: colors.deepOrange.accent4,
-          success: colors.green.accent3
-        }
-      }
-    }
+   /**
+     * As described here:
+     * https://github.com/nuxt-community/vuetify-module/issues/101#issuecomment-518577403
+     *
+     * Defining options like this will make the Vuetify colors will be
+     * bundled by Webpack at build step and, should fixes the error:
+     *
+     * Cannot find module 'vuetify/es5/util/colors' in /nuxt.config.js
+     */
+    optionsPath: './vuetify.options.js'
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
