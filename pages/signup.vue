@@ -191,7 +191,8 @@ export default {
 .content {
   display: flex;
   justify-content: center;
-  margin-top: 50px;
+  margin: 5% 5% 5% 5%;
+
 }
 .content h1 {
   margin-top: 50px;

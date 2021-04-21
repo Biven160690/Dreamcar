@@ -161,7 +161,7 @@ export default {
   margin-top: 50px;
   text-align: center;
   float: left;
-  margin: 0% 0% 0% 5%;
+  margin: 0% 0% 3% 5%;
 }
 .content h1 {
   margin-top: 50px;

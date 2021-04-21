@@ -48,7 +48,7 @@
         ></v-text-field>
         <div class="button">
           <v-btn @click="clear"> clear </v-btn>
-          <v-btn class="mr-4" :disabled="this.$v.passw.$invalid" @click="submit">
+          <v-btn class="mr-4" :disabled="this.$v.$invalid" @click="submit">
             submit
           </v-btn>
         </div>
@@ -120,23 +120,15 @@ export default {
   },
   methods: {
     ...mapMutations(["updateLoggedUserPassword"]),
-    submit() {
-      if ( this.passw === this.userPasswFromStore) {
-      if (this.password === this.repeatPassword
-      && this.password.length > 4) {
-        var user = {
+    submit()  {
+      var user = {
         id: this.getLoggedUser.id,
         passw: this.password,
-        }
-        alert("password changed successfully");
-        this.updateLoggedUserPassword(user);
-       } else {
-        return alert('Wrong  or not filled "New password" form');
-      }
-       } else {
-        return alert('Wrong old password');
-    };
-  },
+      };
+      alert("password changed successfully");
+      this.updateLoggedUserPassword(user);
+      this.$router.push("lots");
+    },
     clear() {
       this.$v.$reset();
       this.passw = "";
