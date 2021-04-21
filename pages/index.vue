@@ -2,7 +2,7 @@
 
 <template>
   <div>
-    <div class="container">
+    <div class="content">
       <div class="section">
         <h3>PARTS SUPPLY AUCTION</h3>
         <div class="section1__content">
@@ -53,7 +53,7 @@
       </div>
     </div>
     <div class="footer">
-      <div class="container">
+      <div class="content_footer">
         <div class="footer__data">
           <p>DREAMCAR, 2021</p>
           <div class="footer__contacts">
@@ -79,6 +79,9 @@ export default {
 </script>
 
 <style scoped>
+.content {
+  margin: 0% 5% 0% 5%;
+}
 .section {
   background-color: #e3e3e3;
   margin-top: 35px;
@@ -122,6 +125,10 @@ export default {
 .section__content p {
   width: 30%;
   font-size: 1 4px;
+}
+
+.content_footer{
+  margin: 0% 5% 0% 5%;
 }
 
 .footer {
